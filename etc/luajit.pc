@@ -19,6 +19,6 @@ Description: Just-in-time compiler for Lua
 URL: http://luajit.org
 Version: ${version}
 Requires:
-Libs: -L${libdir} -l${libname}
+Libs: -L${libdir} -l${libname} -lcjson -lsqlite3
 Libs.private: -Wl,-E -lm -ldl
 Cflags: -I${includedir}

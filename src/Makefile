@@ -166,6 +166,7 @@ XCFLAGS=
 CCOPTIONS= $(CCDEBUG) $(CCOPT) $(CCWARN) $(XCFLAGS) $(CFLAGS)
 LDOPTIONS= $(CCDEBUG) $(LDFLAGS)
 
+LIBS= ../cjson/libcjson.a ../sqlite3/libsqlite3.a
 HOST_CC= $(CC)
 HOST_RM= rm -f
 # If left blank, minilua is built and used. You can supply an installed
@@ -455,7 +456,7 @@ LJCORE_O= lj_gc.o lj_err.o lj_char.o lj_bc.o lj_obj.o \
 	  lj_asm.o lj_trace.o lj_gdbjit.o \
 	  lj_ctype.o lj_cdata.o lj_cconv.o lj_ccall.o lj_ccallback.o \
 	  lj_carith.o lj_clib.o lj_cparse.o \
-	  lj_lib.o lj_alloc.o lib_aux.o \
+	  lj_lib.o lj_alloc.o lib_aux.o lsqlite3.o \
 	  $(LJLIB_O) lib_init.o
 
 LJVMCORE_O= $(LJVM_O) $(LJCORE_O)

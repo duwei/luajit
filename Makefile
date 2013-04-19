@@ -84,6 +84,11 @@ FILES_INC= lua.h lualib.h lauxlib.h luaconf.h lua.hpp luajit.h
 FILES_JITLIB= bc.lua v.lua dump.lua dis_x86.lua dis_x64.lua dis_arm.lua \
 	      dis_ppc.lua dis_mips.lua dis_mipsel.lua bcsave.lua vmdef.lua
 
+CJSON_A= libcjson.a
+SQLITE3_A= libsqlite3.a
+INSTALL_CJSON_A= $(INSTALL_LIB)/$(CJSON_A)
+INSTALL_SQLITE3_A= $(INSTALL_LIB)/$(SQLITE3_A)
+
 ifeq (,$(findstring Windows,$(OS)))
   ifeq (Darwin,$(shell uname -s))
     INSTALL_SONAME= $(INSTALL_DYLIBNAME)
@@ -99,6 +104,8 @@ INSTALL_DEP= src/luajit
 
 default all $(INSTALL_DEP):
 	@echo "==== Building LuaJIT $(VERSION) ===="
+	$(MAKE) -C cjson
+	$(MAKE) -C sqlite3
 	$(MAKE) -C src
 	@echo "==== Successfully built LuaJIT $(VERSION) ===="
 
@@ -120,11 +127,13 @@ install: $(INSTALL_DEP)
 	cd src && $(INSTALL_F) $(FILES_INC) $(INSTALL_INC)
 	cd src/jit && $(INSTALL_F) $(FILES_JITLIB) $(INSTALL_JITLIB)
 	$(SYMLINK) $(INSTALL_TNAME) $(INSTALL_TSYM)
+	cd cjson && $(INSTALL_F) $(CJSON_A) $(INSTALL_CJSON_A)
+	cd sqlite3 && $(INSTALL_F) $(SQLITE3_A) $(INSTALL_SQLITE3_A)
 	@echo "==== Successfully installed LuaJIT $(VERSION) to $(PREFIX) ===="
 
 uninstall:
 	@echo "==== Uninstalling LuaJIT $(VERSION) from $(PREFIX) ===="
-	$(UNINSTALL) $(INSTALL_TSYM) $(INSTALL_T) $(INSTALL_STATIC) $(INSTALL_DYN) $(INSTALL_SHORT1) $(INSTALL_SHORT2) $(INSTALL_MAN)/$(FILE_MAN) $(INSTALL_PC)
+	$(UNINSTALL) $(INSTALL_CJSON_A) $(INSTALL_SQLITE3_A) $(INSTALL_TSYM) $(INSTALL_T) $(INSTALL_STATIC) $(INSTALL_DYN) $(INSTALL_SHORT1) $(INSTALL_SHORT2) $(INSTALL_MAN)/$(FILE_MAN) $(INSTALL_PC)
 	for file in $(FILES_JITLIB); do \
 	  $(UNINSTALL) $(INSTALL_JITLIB)/$$file; \
 	  done
@@ -142,6 +151,8 @@ amalg:
 	$(MAKE) -C src amalg
 
 clean:
+	$(MAKE) -C sqlite3 clean
+	$(MAKE) -C cjson clean
 	$(MAKE) -C src clean
 
 .PHONY: all install amalg clean
