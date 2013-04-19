@@ -167,6 +167,7 @@ CCOPTIONS= $(CCDEBUG) $(CCOPT) $(CCWARN) $(XCFLAGS) $(CFLAGS)
 LDOPTIONS= $(CCDEBUG) $(LDFLAGS)
 
 LIBS= ../cjson/libcjson.a ../sqlite3/libsqlite3.a
+TARGET_CFLAGS= -I../sqlite3/
 HOST_CC= $(CC)
 HOST_RM= rm -f
 # If left blank, minilua is built and used. You can supply an installed
