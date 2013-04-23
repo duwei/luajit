@@ -1,5 +1,5 @@
 CC= gcc
-CFLAGS= -O3 -Wall -pedantic -DNDEBUG  -I../src/ -fPIC -DENABLE_CJSON_GLOBAL=1
+CFLAGS= -O3 -Wall -pedantic -DNDEBUG  -I../src/ -fPIC -DENABLE_CJSON_GLOBAL=1 -DMULTIPLE_THREADS=1
 
 AR= ar rcu
 RM= rm -f
